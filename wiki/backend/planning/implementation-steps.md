@@ -3,7 +3,7 @@
 ## 目的
 
 - 最小構成で早く動くものを作り、段階的に品質と機能を上げる
-- `b1_spec.md` と `b2_backend-clean-architecture.md` に沿って実装する
+- `wiki/backend/specs/mvp-spec.md` と `wiki/backend/architecture/clean-architecture.md` に沿って実装する
 
 ## 全体方針
 
