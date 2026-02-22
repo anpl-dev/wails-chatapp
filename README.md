@@ -1,26 +1,49 @@
-## About
+# wails-chatapp
 
-Wails template which includes: Vite, React, TS, TailwindCSS out of the box.
+Wailsで動作する、複数ユーザー対応のリアルタイムチャットアプリを作るためのプロジェクトです。  
+デスクトップアプリとして配布でき、WebSocketで双方向通信を行います。
 
-Build with `Wails CLI v2.0.0`.
+## 目的
 
-To use this [template](https://wails.io/docs/community/templates):
-```shell
-wails init -n "Your Project Name" -t https://github.com/hotafrika/wails-vite-react-ts-tailwind-template
-cd frontend/src
-npm install
-```
+- 複数ユーザーが同時に参加できるチャットを実現する
+- メッセージをリアルタイムに配信する
+- シンプルで拡張しやすい構成で実装する
 
-[Here](scripts) you can find useful scripts for building on different platforms and Wails CLI installation.
+## 使用技術
 
-## Live Development
+- Backend: `Go`（Wailsアプリ本体）
+- Frontend: `TypeScript` + `React`
+- UI: `Tailwind CSS`
+- 通信プロトコル: `WebSocket`
 
-To run in live development mode, run `wails dev` in the project directory. In another terminal, go into the `frontend`
-directory and run `npm run dev`. The frontend dev server will run on http://localhost:34115. Connect to this in your
-browser and connect to your application.
+## 想定アーキテクチャ
 
-## Building
+- Wailsアプリ内でGoのWebSocketサーバーを起動
+- クライアント（TypeScript）がWebSocketで接続
+- サーバー側で接続中クライアントを管理し、受信メッセージを全参加者へブロードキャスト
+- 必要に応じてルーム機能やユーザー管理を追加
 
-To build a redistributable, production mode package, use `wails build`.
+## MVP（最初に作る範囲）
 
+- ユーザー名を入力してチャットに参加
+- 1つの共通ルームでメッセージ送受信
+- 接続・切断時の通知
+- 最低限のUI（メッセージ一覧、入力欄、送信ボタン）
 
+## 今後の拡張候補
+
+- 複数チャットルーム
+- 過去メッセージ保存（SQLiteなど）
+- 認証（ログイン）
+- 既読・未読やタイピング中表示
+- ファイル送信
+
+## 開発メモ
+
+- 開発時は `wails dev` を使用
+- フロントエンドのみ確認する場合は `frontend` で `npm run dev`
+- 本番ビルドは `wails build`
+
+## ドキュメント
+
+- 詳細仕様と設計方針は [`wiki/README.md`](./wiki/README.md) を参照
