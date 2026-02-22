@@ -2,13 +2,16 @@ package room
 
 import (
 	"context"
+	"strings"
+	"wails-chatapp/internal/domain"
 
 	"github.com/google/uuid"
 )
 
 type (
 	RoomRepository interface {
-		Create(ctx context.Context, room Room) (*Room, error)
+		Save(ctx context.Context, room *Room) error
+		FindByID(ctx context.Context, id uuid.UUID) (*Room, error)
 		Delete(ctx context.Context, id uuid.UUID) error
 	}
 
@@ -19,8 +22,8 @@ type (
 )
 
 func NewRoom(name string) (*Room, error) {
-	if name == "" {
-		return nil, nil
+	if strings.TrimSpace(name) == "" {
+		return nil, domain.ErrInvalidRoomName
 	}
 	return &Room{
 		ID:   uuid.New(),

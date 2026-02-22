@@ -2,15 +2,17 @@ package user
 
 import (
 	"context"
+	"strings"
+	"wails-chatapp/internal/domain"
 
 	"github.com/google/uuid"
 )
 
 type (
 	UserRepository interface {
-		JoinRoom(ctx context.Context, userID uuid.UUID, roomID uuid.UUID) error
-		LeaveRoom(ctx context.Context, id uuid.UUID) error
-		SendMessage(ctx context.Context, roomID uuid.UUID) error
+		Save(ctx context.Context, user *User) error
+		FindByID(ctx context.Context, id uuid.UUID) (*User, error)
+		Delete(ctx context.Context, id uuid.UUID) error
 	}
 
 	User struct {
@@ -20,8 +22,8 @@ type (
 )
 
 func NewUser(name string) (*User, error) {
-	if name == "" {
-		return nil, nil
+	if strings.TrimSpace(name) == "" {
+		return nil, domain.ErrInvalidUserName
 	}
 	return &User{
 		ID:   uuid.New(),
